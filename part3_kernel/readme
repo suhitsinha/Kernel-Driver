@@ -1,0 +1,7 @@
+For kmalloc part:
+
+1. make the module.
+2. run the module using command: insmod p3_1.ko
+3. Remove the module
+4. See the output from dmesg
+

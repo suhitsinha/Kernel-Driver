@@ -1,0 +1,1 @@
+cmd_/home/suhit/cs746/as1/part3/p2_3.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/suhit/cs746/as1/part3/p2_3.ko /home/suhit/cs746/as1/part3/p2_3.o /home/suhit/cs746/as1/part3/p2_3.mod.o

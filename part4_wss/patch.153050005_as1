@@ -1,0 +1,97 @@
+--- linux-4.3.3/arch/x86/mm/fault.c	2016-02-19 17:46:38.955365263 +0530
++++ ./cs746/linux-4.3.3/arch/x86/mm/fault.c	2015-12-15 11:11:43.000000000 +0530
+@@ -14,8 +14,6 @@
+ #include <linux/prefetch.h>		/* prefetchw			*/
+ #include <linux/context_tracking.h>	/* exception_enter(), ...	*/
+ #include <linux/uaccess.h>		/* faulthandler_disabled()	*/
+-#include <asm/pgtable.h>
+-
+ 
+ #include <asm/traps.h>			/* dotraplinkage, ...		*/
+ #include <asm/pgalloc.h>		/* pgd_*(), ...			*/
+@@ -27,13 +25,6 @@
+ #define CREATE_TRACE_POINTS
+ #include <asm/trace/exceptions.h>
+ 
+-
+-
+-/*****************hook*******************/
+-void (*funcProcessPageHook) (int, unsigned long, struct mm_struct *) = NULL;
+-EXPORT_SYMBOL(funcProcessPageHook);
+-/**************************************/
+-
+ /*
+  * Page fault error code bits:
+  *
+@@ -1054,8 +1045,6 @@
+ 	return true;
+ }
+ 
+-
+-
+ /*
+  * This routine handles page faults.  It determines the address,
+  * and the problem, and then passes it off to one of the appropriate
+@@ -1073,52 +1062,11 @@
+ 	struct task_struct *tsk;
+ 	struct mm_struct *mm;
+ 	int fault, major = 0;
+-	unsigned int flags;
++	unsigned int flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
++
+ 	tsk = current;
+ 	mm = tsk->mm;
+ 
+-/*
+-if (*funcProcessPageHook != NULL)
+-{
+-	PGDir = pgd_offset(mm, address);
+-	if (!pgd_none(*PGDir) && !pud_bad(*PUDir))
+-	{
+-		PUDir = pud_offset(PGDir, address);
+-		if (!pud_none(*PUDir) && !pud_bad(*PUDir))
+-		{	
+-			PMDir = pmd_offset(PUDir, address);
+-			if (!pmd_none(*PMDir) && !pmd_bad(*PMDir))
+-			{
+-				PTEnt = pte_offset_map(PMDir, address);
+-				if (!(PTEnt == NULL) && pte_present(*PTEnt))
+-				{
+-					if((pte_val(*PTEnt) & _PAGE_PROTNONE) && !(pte_val(*PTEnt) & _PAGE_PRESENT))
+-					{
+-
+-							(*PTEnt).pte = 	(pte_val(*PTEnt) & ~_PAGE_PROTNONE)| _PAGE_PRESENT;
+-							funcProcessPageHook(tsk->pid);
+-					}
+-				}
+-			}
+-		}
+-	}
+-}
+-*/
+-	/******************Adding Hook*******************/
+-		
+-		
+-	if (*funcProcessPageHook != NULL)
+-	{
+-		funcProcessPageHook(tsk->pid, address, mm);
+-	}
+-				
+-	/************************************************/
+-
+-
+-	flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
+-
+-
+-
+ 	/*
+ 	 * Detect and handle instructions that would cause a page fault for
+ 	 * both a tracked kernel page and a userspace page.
+@@ -1323,7 +1271,6 @@
+ 	 * Major/minor page fault accounting. If any of the events
+ 	 * returned VM_FAULT_MAJOR, we account it as a major fault.
+ 	 */
+-
+ 	if (major) {
+ 		tsk->maj_flt++;
+ 		perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MAJ, 1, regs, address);

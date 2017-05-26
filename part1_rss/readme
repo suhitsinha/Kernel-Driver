@@ -1,0 +1,6 @@
+1. run the user process using commad ./test
+2. Get the pid of the process from the terminal.
+3. make the module.
+4. run the module using command: insmod p1_1.ko upid=<pid>
+5. Remove the module.
+6. Get the output from dmesg.

@@ -1,0 +1,1 @@
+cmd_/home/suhit/cs746/153050005-a1/part4_wss/p4_1.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/suhit/cs746/153050005-a1/part4_wss/p4_1.ko /home/suhit/cs746/153050005-a1/part4_wss/p4_1.o /home/suhit/cs746/153050005-a1/part4_wss/p4_1.mod.o

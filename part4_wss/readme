@@ -1,0 +1,9 @@
+1. run the user process using commad ./allocate
+2. Get the pid of the process from the terminal.
+3. make the module.
+4. run the module using command: insmod p4_1.ko upidval=5850
+5. Iterate user process as per convinience.
+6. Wait till the module finished.
+7. Remove the module.
+8. Get the output from dmesg.
+9. Terminate user process.

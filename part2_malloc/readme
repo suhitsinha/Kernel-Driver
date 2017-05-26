@@ -1,0 +1,25 @@
+For kmalloc part:
+
+1. make the module.
+2. run the module using command: insmod p2_1.ko in ./part2_1/
+3. Do not remove the mmodule
+4. Get the address of the structure logical address from dmesg
+5. Remove the module.
+6. Get the output from dmesg.
+7. keep the module loaded.
+8. run module p2_2.ko in ./part2_2/ using the logical address of the structure using: insmod p2_2.ko ptrval=<address>
+9. remove both modules.
+10. see output from dmesg.
+
+For vmalloc part:
+
+1. make the module.
+2. run the module using command: insmod p2_3.ko in ./part2_3/
+3. Do not remove the mmodule
+4. Get the address of the structure logical address from dmesg
+5. Remove the module.
+6. Get the output from dmesg.
+7. keep the module loaded.
+8. run module p2_4.ko in ./part2_4/ using the logical address of the structure using: insmod p2_4.ko ptrval=<address>
+9. remove both modules.
+10. see output from dmesg.
